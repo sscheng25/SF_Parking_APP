@@ -11,6 +11,13 @@ With such a large population and huge number of visitors, it is extraordinarily 
 To give a better sense of parking demands to both the planning authorities and the public, I'd like to carry out a web application for on-street parking visualizations by each neighborhood.
 
 ## Data Source
+- [SFMTA Parking Meter Detailed Revenue Transactions](https://data.sfgov.org/Transportation/SFMTA-Parking-Meter-Detailed-Revenue-Transactions/imvp-dq3v/data)
+- [Parking Meters](https://data.sfgov.org/Transportation/Parking-Meters/8vzz-qzz9)
+- [Analysis Neighborhoods](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h)
 
+Final geoJSON data used for web application are wrangled through python scripts.
 
 ## Proposed Functions
+- Interactive map of parking meters.
+- Interactive map of parking records by hour by neighborhood.
+- Interactive line chart of parking numbers by time.
