@@ -17,6 +17,8 @@ To give a better sense of parking demands to both the planning authorities and t
 
 Final geoJSON data used for web application are wrangled through python scripts.
 
+Raw data size: 420,000+ rows, time period: **2022-03-27 to 2022-04-02**.
+
 ## Proposed Functions
 - Interactive map of parking meters.
 - Interactive map of parking records by hour by neighborhood.
