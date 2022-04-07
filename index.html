@@ -1,16 +1,29 @@
 <html>
   <head>
     <title>On Street Parking in San Francisco</title>
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <link href="index.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
     <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
 
   </head>
 
   <body>
 
-    
+    <div class="topnav">Top Navigation</div>
+    <div class="content" id="content">
+      <div class="map" id="map">Map</div>
+      <div class="sidebar">Side bar
+        <div class="chart-container">
+          <div class="chart" id="line-chart">line chart</div>
+          <div class="chart" id="bar-chart">bar chart</div>
+          <div class="chart" id="pie-chart">pie chart</div>
+        </div>
+      </div>
+      
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script src="js/tools.js"></script>
