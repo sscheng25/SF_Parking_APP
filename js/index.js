@@ -20,6 +20,7 @@ let parkings = parkings_nhood_0327_0402;
 slider.addEventListener('change', () => {
   console.log(slider.value);
   updateMap();
+  initialBarChart();
 });
 
 let getColor = (value) => {
@@ -81,4 +82,44 @@ let updateMap = () => {
 })
   .addTo(parkingLayer);
 }
-//updateMap();
+
+// barchart
+let initialBarChart = () => {
+  
+  let nhood = parkings.features.map((layer) => {
+    let result = layer.properties.nhood; 
+    return result;
+  });
+  let barValue = parkings.features.map((layer) => {
+    let result = layer.properties[slider.value]; 
+    return result;
+  });
+  console.log(barValue);
+  var options = {
+    chart: {
+      type: 'bar',
+      height: 250,
+    },
+    series: [{
+      name: 'parkings',
+      data: barValue
+    }],
+    xaxis: {
+      categories: nhood,
+      labels: {
+        rotate: -90
+      },
+      tickPlacement: 'on'
+    }
+  }
+  
+  var chart = new ApexCharts(document.querySelector("#bar-chart"), options);
+  
+  chart.render();
+  chart.updateSeries([{
+    data: barValue
+  }], 
+  //animate = true
+  )
+};
+//initialBarChart();

@@ -7,7 +7,6 @@ body {
   flex-direction: column;
 }
 
-
 .topnav,
 .content,
 .sidebar,
@@ -22,12 +21,12 @@ body {
 }
 
 .sidebar {
-  width: 25rem;
+  width: 40%;
 }
 
 .map {
   flex-grow: 1;
-  height: 80%;
+  height: 50%;
 }
 
 .content {
@@ -36,20 +35,20 @@ body {
 }
 
 .chart {
-  height: 25%;
-  background-color: aquamarine;
+  background-color: white;
   border: 1px solid green;
-  margin: 2rem;
+  margin: 0rem;
 }
 
 .slidecontainer {
   width: 100%; /* Width of the outside container */
+  margin: 00.5rem;
 }
 
 .slider {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
-  width: 100%; /* Full-width */
+  width: 99%; /* Full-width */
   height: 25px; /* Specified height */
   background: #d3d3d3; /* Grey background */
   outline: none; /* Remove outline */
@@ -78,5 +77,17 @@ body {
 }
 
 .right-content {
-  width: 75%;
+  width: 60%;
+}
+#bar-chart {
+  height: 30%;
+  margin: 0.5rem;
+}
+#panel {
+  border: 0px;
+  height: 100%;
+  width: 100%;
+}
+#line-chart {
+  height: 60%;
 }
