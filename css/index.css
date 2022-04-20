@@ -43,12 +43,13 @@ body {
 .slidecontainer {
   width: 100%; /* Width of the outside container */
   margin: 00.5rem;
+  flex-direction: column;
 }
 
 .slider {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
-  width: 99%; /* Full-width */
+  width: 85%; /* Full-width */
   height: 25px; /* Specified height */
   background: #d3d3d3; /* Grey background */
   outline: none; /* Remove outline */
@@ -90,4 +91,10 @@ body {
 }
 #line-chart {
   height: 60%;
+}
+.select {
+  margin: 1rem;
+}
+#output-value {
+  margin: 0.2rem;
 }

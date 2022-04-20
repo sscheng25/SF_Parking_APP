@@ -19,15 +19,20 @@
 
         <div class="slidecontainer">
           <input type="range" min="0" max="168" value="0" class="slider" id="mySlider">
+          <span id="output-value"></span>
         </div>
-        <div class="chart" id="bar-chart">bar chart</div>
+        <div class="chart" id="bar-chart"></div>
       </div>
 
 
       <div class="sidebar">
         <div class="chart-container">
+          <select id="nhood-select" class="select">
+            <option value="">Please Select Neighborhood.</option>
+          </select>
           <div class="chart" id="line-chart">
-            <iframe src="../panelParkings.html" id="panel" seamless></iframe>
+            <!-- <iframe src="../panelParkings.html" id="panel" seamless></iframe>-->
+            
           </div>
           
           <div class="chart" id="pie-chart">
@@ -42,6 +47,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script src="js/tools.js"></script>
     <script src="data/data.js"></script>
+    <script src="data/data2.js"></script>
     <script src="js/index.js"></script>
     
   </body>

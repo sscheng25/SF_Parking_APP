@@ -1,20 +1,19 @@
 let map = L.map('map').setView([37.7707, -122.4378], 12);
 const parkingLayer = L.layerGroup().addTo(map);
+const parkingLayer2 = L.layerGroup().addTo(map);
 
 L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.',
 }).addTo(map);
 
 var slider = document.getElementById("mySlider");
-//var output = document.getElementById("demo");
-//output.innerHTML = slider.value; // Display the default slider value
-
+var output = document.getElementById("output-value");
+output.innerHTML = `Day ${Math.floor(slider.value/24)+1}, ${(slider.value)%24}:00`; // Display the default slider value
 // Update the current slider value (each time you drag the slider handle)
-/*
 slider.oninput = function() {
-  output.innerHTML = this.value;
+  output.innerHTML = `Day ${Math.floor(this.value/24)+1}, ${(this.value)%24}:00`;
 }
-*/
+
 let parkings = parkings_nhood_0327_0402;
 
 slider.addEventListener('change', () => {
@@ -79,7 +78,7 @@ let updateMap = () => {
   .bindTooltip(layer => {
     let nam = layer.feature.properties.nhood;
     return `${nam}`;
-})
+  })
   .addTo(parkingLayer);
 }
 
@@ -94,7 +93,7 @@ let initialBarChart = () => {
     let result = layer.properties[slider.value]; 
     return result;
   });
-  console.log(barValue);
+  //console.log(barValue);
   var options = {
     chart: {
       type: 'bar',
@@ -110,6 +109,12 @@ let initialBarChart = () => {
         rotate: -90
       },
       tickPlacement: 'on'
+    },
+    events: {
+      click: function(event, chartContext, config) {
+        console.log(config.seriesIndex);
+        console.log(config.config.series[config.seriesIndex])
+      }
     }
   }
   
@@ -123,3 +128,99 @@ let initialBarChart = () => {
   )
 };
 //initialBarChart();
+const nhoodSelect = document.querySelector('#nhood-select');
+
+let initialSelectList = () => {
+  let nhoodList = [];
+  for(let i = 0; i < 5000; i++) {
+    nhoodList = nhoodList.concat(parkings_long.nhood[i]);
+  };
+/*
+  parkings.feature.forEach((nhood) => {
+    const nhood_name = nhood.properties.nhood;
+    nhoodList = nhoodList.concat(nhood_name);
+  });
+  */
+  let nhoodUnique = [...new Set(nhoodList)].sort();
+  nhoodUnique.forEach((nhood) => {
+    nhoodSelect.appendChild(htmlToElement(`<option>${nhood}</option>`));
+  });
+  console.log('Type list set up!');
+};
+initialSelectList();
+
+let initialLineChart = () => {
+  let valueList = [];
+  let timeList = [];
+  for(let i = 0; i < 5000; i++) {
+    if (parkings_long.nhood[i] === nhoodSelect.value) {
+      valueList = valueList.concat(parkings_long.value[i]);
+      timeList = timeList.concat(parkings_long.timeIndex[i]);
+    };
+    
+  };
+  var options_line = {
+    series: [{
+      name: "Parking Counts",
+      data: valueList
+  }],
+    chart: {
+    height: 350,
+    type: 'line',
+    zoom: {
+      enabled: true
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'straight'
+  },
+  grid: {
+    row: {
+      colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+      opacity: 0.5
+    },
+  },
+  xaxis: {
+    categories: timeList,
+    tickAmount: 10
+  }
+  };
+  
+  var chart_line = new ApexCharts(document.querySelector("#line-chart"), options_line);
+  chart_line.render();
+  chart_line.updateSeries([{
+    data: valueList
+  }], 
+  //animate = true
+  )
+};
+let updateMaker = () => {
+  console.log(nhoodSelect.value);
+  parkingLayer2.clearLayers();
+  nhoodSelected = parkings.features.filter((layer) => layer.properties.nhood === nhoodSelect.value);
+  L.geoJSON(nhoodSelected, {
+    style: {color: '#FF0000'}
+  })
+  .bindPopup(layer => {
+    let nam = layer[0].properties.nhood;
+    return `${nam}`;
+  })
+  .openPopup()
+  .addTo(parkingLayer2);
+}
+
+
+let handleSelectChange = () => {
+  initialLineChart();
+  updateMaker();
+};
+
+nhoodSelect.addEventListener('change', handleSelectChange);
+
+
+//initialLineChart();
+
+
