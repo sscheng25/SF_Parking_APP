@@ -1,6 +1,7 @@
 <html>
   <head>
-    <title>On Street Parking in San Francisco</title>
+    <title>Parking in San Francisco</title>
+    <link rel="shortcut icon" type="image/png" href="../logo3.png"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +13,13 @@
 
   <body>
 
-    <div class="topnav">On-Street Parkings in San Francisco</div>
+    <div class="topnav">
+      <img src="../logo2.png" alt="LOGO" id="logo">
+      <a href="#home">Home</a>
+      <a href="#parking-map">Parking Map</a>
+      <a class="active" href="#dashboard">Dashboard</a>
+    </div>
+
     <div class="content" id="content">
       <div class="right-content">
         <div class="map" id="map">Map</div>
@@ -36,7 +43,7 @@
           </div>
           
           <div class="chart" id="pie-chart">
-            <object data="../circle.svg"> </object>
+            <!-- <object data="../circle.svg"> </object></iframe>-->
           </div>
         </div>
       </div>
@@ -48,6 +55,7 @@
     <script src="js/tools.js"></script>
     <script src="data/data.js"></script>
     <script src="data/data2.js"></script>
+    <script src="data/data3.js"></script>
     <script src="js/index.js"></script>
     
   </body>

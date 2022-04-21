@@ -1,8 +1,9 @@
 let map = L.map('map').setView([37.7707, -122.4378], 12);
 const parkingLayer = L.layerGroup().addTo(map);
 const parkingLayer2 = L.layerGroup().addTo(map);
+const parkingLayer3 = L.layerGroup().addTo(map);
 
-L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.',
 }).addTo(map);
 
@@ -98,6 +99,27 @@ let initialBarChart = () => {
     chart: {
       type: 'bar',
       height: 250,
+      events: {
+        click: function(event, chartContext, config) {
+          //console.log(config.seriesIndex);
+          //console.log(config.config.series[config.seriesIndex]);
+          //console.log(config.dataPointIndex);
+          console.log(parkings.features[config.dataPointIndex].properties.nhood);
+          //console.log('hey');
+          parkingLayer3.clearLayers();
+          nameHood = parkings.features[config.dataPointIndex].properties.nhood;
+          nhoodSelected = parkings.features.filter((layer) => layer.properties.nhood === nameHood);
+          L.geoJSON(nhoodSelected, {
+            style: {color: '#0000FF'}
+          })
+          .bindPopup(layer => {
+            let nam = nameHood;
+            return `${nam}`;
+          })
+          .openPopup()
+          .addTo(parkingLayer3);
+        }
+      }
     },
     series: [{
       name: 'parkings',
@@ -110,12 +132,7 @@ let initialBarChart = () => {
       },
       tickPlacement: 'on'
     },
-    events: {
-      click: function(event, chartContext, config) {
-        console.log(config.seriesIndex);
-        console.log(config.config.series[config.seriesIndex])
-      }
-    }
+    
   }
   
   var chart = new ApexCharts(document.querySelector("#bar-chart"), options);
@@ -165,7 +182,7 @@ let initialLineChart = () => {
       data: valueList
   }],
     chart: {
-    height: 350,
+    height: 300,
     type: 'line',
     zoom: {
       enabled: true
@@ -205,16 +222,58 @@ let updateMaker = () => {
     style: {color: '#FF0000'}
   })
   .bindPopup(layer => {
-    let nam = layer[0].properties.nhood;
+    let nam = nhoodSelect.value;
     return `${nam}`;
   })
   .openPopup()
   .addTo(parkingLayer2);
 }
 
+let initialPieChart = () => {
+  let valueList = [];
+  let timeList = [];
+  for(let i = 0; i < 140; i++) {
+    if (timePeriod.nhood[i] === nhoodSelect.value) {
+      valueList = valueList.concat(timePeriod.value[i]);
+      //console.log(timePeriod.value[i]);
+      timeList = timeList.concat(timePeriod.timePeriod[i]);
+    };  
+  };
+  let timeUnique = [...new Set(timeList)].sort();
+  console.log(valueList);
+  console.log(timeList);
+  var options_pie = {
+    series: valueList,
+    chart: {
+      height: 250,
+      type: 'donut',
+  },
+  labels: timeUnique,
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      chart: {
+        height: 50,
+        width: 50
+      },
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+  };
+
+
+  var chart_pie = new ApexCharts(document.querySelector("#pie-chart"), options_pie);
+  chart_pie.render();
+  chart_pie.updateSeries(
+    valueList
+  )
+}
 
 let handleSelectChange = () => {
   initialLineChart();
+  initialPieChart();
   updateMaker();
 };
 
