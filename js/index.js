@@ -169,7 +169,7 @@ initialSelectList();
 let initialLineChart = () => {
   let valueList = [];
   let timeList = [];
-  for(let i = 0; i < 5000; i++) {
+  for(let i = 0; i < 5300; i++) {
     if (parkings_long.nhood[i] === nhoodSelect.value) {
       valueList = valueList.concat(parkings_long.value[i]);
       timeList = timeList.concat(parkings_long.timeIndex[i]);

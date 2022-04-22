@@ -1,0 +1,117 @@
+body {
+  box-sizing: border-box;
+  display: flex;
+  margin: 0;
+  padding: 0rem;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.topnav,
+.content,
+.sidebar,
+.map {
+  border: 1px solid red;
+}
+
+.sidebar {
+  width: 40%;
+}
+
+.map {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+}
+
+.chart {
+  background-color: white;
+  border: 1px solid green;
+  margin: 0rem;
+}
+
+
+.right-content {
+  width: 60%;
+}
+#bar-chart {
+  height: 30%;
+  margin: 0.5rem;
+}
+#panel {
+  border: 0px;
+  height: 100%;
+  width: 100%;
+}
+#line-chart {
+  height: 40%;
+}
+.select {
+  margin: 1rem;
+}
+#output-value {
+  margin: 0.2rem;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #eee;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 10px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #4C96D7;
+  color: white;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4C96D7;
+  color: white;
+}
+#logo {
+  float: right;
+}
+.search-container input[type=text] {
+  float: left;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-left: 16px;
+  font-size: 17px;
+}
+.search-container button {
+  float: left;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-left: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background: #ccc;
+}
+
+#off-list {
+  padding: 3rem;
+}
+
