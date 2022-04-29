@@ -8,9 +8,18 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map
 }).addTo(map);
 
 let parkings = parkings_nhood_0327_0402;
+var parkIcon = L.icon({
+  iconUrl: './image/logo3.png',
+  iconSize:     [25, 25], // size of the icon
+  //iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+  //popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
 
-
-L.geoJSON(offStreet)
+L.geoJSON(offStreet, {
+  pointToLayer: function(feature, latlng){
+    return L.marker(latlng, {icon: parkIcon});
+  }
+})
 .bindTooltip(layer => {
   let add = layer.feature.properties.street_address;
   let cap = parseInt(layer.feature.properties.capacity);
@@ -86,7 +95,7 @@ const handlePositionUpdated = function (position) {
   
   let disDict = {};
   // calculate the distance
-  for (let i = 0; i < 46; i++) {
+  for (let i = 0; i < 45; i++) {
     let lat1 = offStreet.features[i].properties.main_entrance_lat;
     let long1 = offStreet.features[i].properties.main_entrance_long;
     distance = getDistanceFromLatLonInKm(lat0, long0, lat1, long1);
@@ -110,7 +119,7 @@ const handlePositionUpdated = function (position) {
 
   offList.innerHTML = '';
   sortDist.forEach((item) => {
-    offList.appendChild(htmlToElement(`<li>${item[0]}</li>`));
+    offList.appendChild(htmlToElement(`<li><b>Location:</b> ${item[0]}<br><b>Distance:</b> ${Math.round(item[1]*1000)} m</li>`));
   });
 
 };
@@ -133,8 +142,55 @@ let  deg2rad = (deg) => {
   return deg * (Math.PI/180)
 };
 
+let searchAddress = () => {
+  const search = searchBar.value;
+  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=pk.eyJ1Ijoic2lzdW5jIiwiYSI6ImNsMHZscjk3dDE4OTYzam54OTJ4bjh6N2kifQ.daoGo-tfen82e1nw3iSYew`
+  let searchCoor = '';
 
+  fetch(url)
+  .then(resp => resp.json())
+  .then(searchLoc => {
+    searchCoor = searchLoc.features[0].center;
+    //console.log(searchCoor);
+    let latSearch0 = searchCoor[1];
+    let longSearch0 = searchCoor[0];
 
+    let disDict = {};
+    // calculate the distance
+    for (let i = 0; i < 45; i++) {
+      let lat1 = offStreet.features[i].properties.main_entrance_lat;
+      let long1 = offStreet.features[i].properties.main_entrance_long;
+      distance = getDistanceFromLatLonInKm(latSearch0, longSearch0, lat1, long1);
+      console.log(offStreet.features[i].properties.street_address);
+      console.log(distance);
+      disDict[offStreet.features[i].properties.street_address] = distance;
 
+    };
+    console.log(disDict);
+    var sortDist = Object.keys(disDict).map(function(key) {
+      return [key, disDict[key]];
+    });
+    
+    // Sort the array based on the second element
+    sortDist.sort(function(first, second) {
+      return first[1] - second[1];
+    });
+
+    console.log(sortDist);
+    sortDist = sortDist.slice(0, 10);
+
+    offList.innerHTML = '';
+    sortDist.forEach((item) => {
+      offList.appendChild(htmlToElement(`<li><b>Location:</b> ${item[0]}<br><b>Distance:</b> ${Math.round(item[1]*1000)} m</li>`));
+    });
+    });
+    
+}
+
+const searchButton = document.querySelector('#button-search');
+searchButton.addEventListener('click', () => {
+  console.log("The term searched for was " + searchBar.value);
+  searchAddress();
+ })
 
 

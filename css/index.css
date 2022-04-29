@@ -11,7 +11,7 @@ body {
 .content,
 .sidebar,
 .map {
-  border: 1px solid red;
+  border: 1px solid rgb(162, 162, 162);
 }
 
 .sidebar {
@@ -30,7 +30,7 @@ body {
 
 .chart {
   background-color: white;
-  border: 1px solid green;
+  border: 0px solid green;
   margin: 0rem;
 }
 
@@ -127,4 +127,7 @@ body {
 }
 #pie-chart {
   margin: 0.5rem;
+}
+#logo {
+  height:40px;
 }
