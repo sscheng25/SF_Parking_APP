@@ -1,5 +1,5 @@
 # [On-street Parking Visualization APP for San Francisco](https://sscheng25.github.io/SF_Parking_APP/)
-Final project for MUSA 611.
+Final project for MUSA 611. [Here](https://sscheng25.github.io/SF_Parking_APP/) is the link for the APP!
 
 ## Motivation
 The City and County of San Francisco, is a cultural, commercial, and financial center in the US state of California. Located in Northern California, San Francisco is the fourth most populous city in California, with 873,965 residents as of 2020. For the San Francisco metropolitan area, it is the 12th-largest metropolitan statistical area in the US with about 4.7 million residents, and the fourth-largest by economic output, with a GDP of \$592 billion in 2019.
