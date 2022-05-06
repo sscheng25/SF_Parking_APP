@@ -29,3 +29,18 @@ function currentSlide(n) {
 }
 
 showSlides(slideIndex);
+let prev = document.getElementsByClassName('prev');
+let next = document.getElementsByClassName('next');
+
+prev.addEventListener('click', () => {
+  plusSlides(-1);
+});
+
+next.addEventListener('click', () => {
+  plusSlides(1);
+});
+
+let cur1 = document.getElementById('cursor1');
+cur1.addEventListener('click', () => {
+  currentSlide(1);
+});

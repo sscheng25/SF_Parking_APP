@@ -18,7 +18,19 @@
       "_": "readonly",
       "document": "readonly",
       "htmlToElement": "readonly",
-      "htmlToElements": "readonly"
+      "htmlToElements": "readonly",
+      "$": "readonly",
+      "_": "readonly",
+      "ApexCharts": "readonly",
+      "Chart": "readonly",
+      "L": "readonly",
+      "mapboxgl": "readonly",
+      "parkingsNhood03270402": "readonly",
+      "parkingsLong": "readonly",
+      "timePeriod": "readonly",
+      "offStreet": "readonly",
+      "navigator": "readonly",
+      "fetch": "readonly"
     },
     "rules": {
       "arrow-parens": "off",
