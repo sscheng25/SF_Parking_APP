@@ -14,6 +14,7 @@ To give a better sense of parking demands to both the planning authorities and t
 - [SFMTA Parking Meter Detailed Revenue Transactions](https://data.sfgov.org/Transportation/SFMTA-Parking-Meter-Detailed-Revenue-Transactions/imvp-dq3v/data)
 - [Parking Meters](https://data.sfgov.org/Transportation/Parking-Meters/8vzz-qzz9)
 - [Analysis Neighborhoods](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h)
+- [SFMTA Managed Off-street Parking](https://data.sfgov.org/Transportation/SFMTA-Managed-Off-street-Parking/vqzx-t7c4)
 
 Final geoJSON data used for web application are wrangled through python scripts.
 
