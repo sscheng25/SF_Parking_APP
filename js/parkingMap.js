@@ -11,13 +11,13 @@ let parkIcon = L.icon({
 });
 
 L.geoJSON(offStreet, {
-  pointToLayer: function (feature, latlng) {
+  pointToLayer(feature, latlng) {
     return L.marker(latlng, { icon: parkIcon });
   },
 })
   .bindTooltip(layer => {
     let add = layer.feature.properties.street_address;
-    let cap = parseInt(layer.feature.properties.capacity);
+    let cap = parseInt(layer.feature.properties.capacity, 10);
     return `<p>ADDRESS: ${add}</p><p>CAPACITY: ${cap}</p>`;
   })
   .addTo(map);
@@ -41,40 +41,18 @@ let trackingID = null;
   will STOP following their position.
 */
 
-const startTracking = function () {
-  // Start tracking the position.
-  console.log('Starting to track position...');
-  trackingID = navigator.geolocation.watchPosition(handlePositionUpdated);
-  // console.log(trackingID);
+let  deg2rad = (deg) => deg * (Math.PI / 180);
 
-  // Update the button text.
-  trackingButton.innerHTML = 'Stop Tracking Me.';
+let getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
+  let R = 6371; // Radius of the earth in km
+  let dLat = deg2rad(lat2 - lat1);  // deg2rad below
+  let dLon = deg2rad(lon2 - lon1);
+  let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1))
+    * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  let d = R * c; // Distance in km
+  return d;
 };
-
-
-const stopTracking = function () {
-  // Stop tracking the position.
-  navigator.geolocation.clearWatch(trackingID);
-  trackingID = null;
-  console.log('No longer tracking position...');
-
-  // Update the marker style.
-  positionMarker.setStyle(nonTrackingStyle);
-
-  // Update the button text.
-  trackingButton.innerHTML = 'Track Me!';
-};
-
-const trackingButton = document.querySelector('#button');
-trackingButton.addEventListener('click', () => {
-  if (trackingID === null) {
-    startTracking();
-  } else {
-    stopTracking();
-  }
-});
-
-
 
 const offList = document.querySelector('#off-list');
 const handlePositionUpdated = function (position) {
@@ -101,14 +79,10 @@ const handlePositionUpdated = function (position) {
     disDict[offStreet.features[i].properties.street_address] = distance;
   }
   console.log(disDict);
-  let sortDist = Object.keys(disDict).map(function (key) {
-    return [key, disDict[key]];
-  });
+  let sortDist = Object.keys(disDict).map((key) => [key, disDict[key]]);
 
   // Sort the array based on the second element
-  sortDist.sort(function (first, second) {
-    return first[1] - second[1];
-  });
+  sortDist.sort((first, second) => first[1] - second[1]);
 
   console.log(sortDist);
   sortDist = sortDist.slice(0, 10);
@@ -119,20 +93,39 @@ const handlePositionUpdated = function (position) {
   });
 };
 
-let  deg2rad = (deg) => {
-  return deg * (Math.PI / 180);
+const trackingButton = document.querySelector('#button');
+
+const startTracking = function () {
+  // Start tracking the position.
+  console.log('Starting to track position...');
+  trackingID = navigator.geolocation.watchPosition(handlePositionUpdated);
+  // console.log(trackingID);
+
+  // Update the button text.
+  trackingButton.innerHTML = 'Stop Tracking Me.';
 };
 
-let getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
-  let R = 6371; // Radius of the earth in km
-  let dLat = deg2rad(lat2 - lat1);  // deg2rad below
-  let dLon = deg2rad(lon2 - lon1);
-  let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1))
-    * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  let d = R * c; // Distance in km
-  return d;
+const stopTracking = function () {
+  // Stop tracking the position.
+  navigator.geolocation.clearWatch(trackingID);
+  trackingID = null;
+  console.log('No longer tracking position...');
+
+  // Update the marker style.
+  positionMarker.setStyle(nonTrackingStyle);
+
+  // Update the button text.
+  trackingButton.innerHTML = 'Track Me!';
 };
+
+
+trackingButton.addEventListener('click', () => {
+  if (trackingID === null) {
+    startTracking();
+  } else {
+    stopTracking();
+  }
+});
 
 
 
@@ -159,13 +152,9 @@ let searchAddress = () => {
         disDict[offStreet.features[i].properties.street_address] = distance;
       }
       console.log(disDict);
-      let sortDist = Object.keys(disDict).map(function(key) {
-        return [key, disDict[key]];
-      });
+      let sortDist = Object.keys(disDict).map((key) => [key, disDict[key]]);
       // Sort the array based on the second element
-      sortDist.sort(function(first, second) {
-        return first[1] - second[1];
-      });
+      sortDist.sort((first, second) => first[1] - second[1]);
 
       console.log(sortDist);
       sortDist = sortDist.slice(0, 10);
@@ -179,7 +168,7 @@ let searchAddress = () => {
 
 const searchButton = document.querySelector('#button-search');
 searchButton.addEventListener('click', () => {
-  console.log('The term searched for was ' + searchBar.value);
+  console.log(`The term searched for was ${searchBar.value}`);
   searchAddress();
 });
 

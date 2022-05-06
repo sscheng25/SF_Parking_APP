@@ -11,17 +11,11 @@ let slider = document.getElementById('mySlider');
 let output = document.getElementById('output-value');
 output.innerHTML = `Day ${Math.floor(slider.value / 24) + 1}, ${(slider.value) % 24}:00`; // Display the default slider value
 // Update the current slider value (each time you drag the slider handle)
-slider.oninput = function() {
+slider.oninput = function () {
   output.innerHTML = `Day ${Math.floor(this.value / 24) + 1}, ${(this.value) % 24}:00`;
 };
 
-let parkings = parkings_nhood_0327_0402;
-
-slider.addEventListener('change', () => {
-  console.log(slider.value);
-  updateMap();
-  initialBarChart();
-});
+let parkings = parkingsNhood03270402;
 
 let getColor = (value) => {
   if (value === 0) {
@@ -63,8 +57,8 @@ let getColor = (value) => {
   if (value > 4000 && value <= 5000) {
     return '#249568';
   }
-}
-
+  return '#FFFFFF';
+};
 
 let updateMap = () => {
   parkingLayer.clearLayers();
@@ -97,19 +91,16 @@ let initialBarChart = () => {
       type: 'bar',
       height: 250,
       events: {
-        click: function(event, chartContext, config) {
+        click(event, chartContext, config) {
           console.log(parkings.features[config.dataPointIndex].properties.nhood);
           // console.log('hey');
           parkingLayer3.clearLayers();
-          nameHood = parkings.features[config.dataPointIndex].properties.nhood;
-          nhoodSelected = parkings.features.filter((layer) => layer.properties.nhood === nameHood);
+          let nameHood = parkings.features[config.dataPointIndex].properties.nhood;
+          let nhoodSelected = parkings.features.filter((lay) => lay.properties.nhood === nameHood);
           L.geoJSON(nhoodSelected, {
-            style: { color: '#0000FF' }
+            style: { color: '#0000FF' },
           })
-            .bindPopup(layer => {
-              let nam = nameHood;
-              return `${nam}`;
-            })
+            .bindPopup(`${nameHood}`)
             .openPopup()
             .addTo(parkingLayer3);
         },
@@ -128,28 +119,27 @@ let initialBarChart = () => {
     },
   };
   let chart = new ApexCharts(document.querySelector('#bar-chart'), options);
-  
+
   chart.render();
   chart.updateSeries([{
     data: barValue,
-  }],
-  // animate = true
-  )
+  }]);
 };
-// initialBarChart();
+
+slider.addEventListener('change', () => {
+  console.log(slider.value);
+  updateMap();
+  initialBarChart();
+});
+
 const nhoodSelect = document.querySelector('#nhood-select');
 
 let initialSelectList = () => {
   let nhoodList = [];
-  for(let i = 0; i < 5000; i++) {
-    nhoodList = nhoodList.concat(parkings_long.nhood[i]);
-  };
-/*
-  parkings.feature.forEach((nhood) => {
-    const nhood_name = nhood.properties.nhood;
-    nhoodList = nhoodList.concat(nhood_name);
-  });
-*/
+  for (let i = 0; i < 5000; i++) {
+    nhoodList = nhoodList.concat(parkingsLong.nhood[i]);
+  }
+
   let nhoodUnique = [...new Set(nhoodList)].sort();
   nhoodUnique.forEach((nhood) => {
     nhoodSelect.appendChild(htmlToElement(`<option>${nhood}</option>`));
@@ -161,19 +151,18 @@ initialSelectList();
 let initialLineChart = () => {
   let valueList = [];
   let timeList = [];
-  for(let i = 0; i < 5300; i++) {
-    if (parkings_long.nhood[i] === nhoodSelect.value) {
-      valueList = valueList.concat(parkings_long.value[i]);
-      timeList = timeList.concat(parkings_long.timeIndex[i]);
-    };
-    
-  };
-  let options_line = {
+  for (let i = 0; i < 5300; i++) {
+    if (parkingsLong.nhood[i] === nhoodSelect.value) {
+      valueList = valueList.concat(parkingsLong.value[i]);
+      timeList = timeList.concat(parkingsLong.timeIndex[i]);
+    }
+  }
+  let optionsLine = {
     series: [{
-      name: "Parking Counts",
+      name: 'Parking Counts',
       data: valueList,
     }],
-      chart: {
+    chart: {
       height: 300,
       type: 'line',
       zoom: {
@@ -197,34 +186,30 @@ let initialLineChart = () => {
       tickAmount: 10,
     },
   };
-  
-  var chart_line = new ApexCharts(document.querySelector("#line-chart"), options_line);
-  chart_line.render();
-  chart_line.updateSeries([{
-    data: valueList
-  }], 
-  // animate = true
-  )
+
+  let chartLine = new ApexCharts(document.querySelector('#line-chart'), optionsLine);
+  chartLine.render();
+  chartLine.updateSeries([{
+    data: valueList,
+  }]);
 };
 let updateMaker = () => {
   console.log(nhoodSelect.value);
   parkingLayer2.clearLayers();
-  nhoodSelected = parkings.features.filter((layer) => layer.properties.nhood === nhoodSelect.value);
+  let nhoodSelected = parkings.features.filter((lay) => lay.properties.nhood === nhoodSelect.value);
   L.geoJSON(nhoodSelected, {
-    style: { color: '#FF0000' }
+    style: { color: '#FF0000' },
   })
-    .bindPopup(layer => {
-      let nam = nhoodSelect.value;
-      return `${nam}`;
-    })
+    .bindPopup(`${nhoodSelect.value}`)
     .openPopup()
     .addTo(parkingLayer2);
 };
 
+// let timePeriod;
 let initialPieChart = () => {
   let valueList = [];
   let timeList = [];
-  for(let i = 0; i < 140; i++) {
+  for (let i = 0; i < 140; i++) {
     if (timePeriod.nhood[i] === nhoodSelect.value) {
       valueList = valueList.concat(timePeriod.value[i]);
       // console.log(timePeriod.value[i]);
@@ -234,7 +219,7 @@ let initialPieChart = () => {
   let timeUnique = [...new Set(timeList)].sort();
   console.log(valueList);
   console.log(timeList);
-  let options_pie = {
+  let optionsPie = {
     series: valueList,
     chart: {
       height: 250,
@@ -255,9 +240,9 @@ let initialPieChart = () => {
     }],
   };
 
-  let chart_pie = new ApexCharts(document.querySelector("#pie-chart"), options_pie);
-  chart_pie.render();
-  chart_pie.updateSeries(
+  let chartPie = new ApexCharts(document.querySelector('#pie-chart'), optionsPie);
+  chartPie.render();
+  chartPie.updateSeries(
     valueList,
   );
 };
@@ -271,6 +256,6 @@ let handleSelectChange = () => {
 nhoodSelect.addEventListener('change', handleSelectChange);
 
 
-//initialLineChart();
+// initialLineChart();
 
 
