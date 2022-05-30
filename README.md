@@ -1,4 +1,4 @@
-# [On-street Parking Visualization APP for San Francisco](https://sscheng25.github.io/SF_Parking_APP/)
+# [Parking Visualization APP for San Francisco](https://sscheng25.github.io/SF_Parking_APP/)
 Final project for MUSA 611. [Here](https://sscheng25.github.io/SF_Parking_APP/) is the link for the APP!
 - Sisun Cheng (sisunc@alumni.upenn.edu)
 
